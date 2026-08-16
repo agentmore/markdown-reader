@@ -36,10 +36,14 @@ describe('MarkdownViewer', () => {
 
   beforeEach(() => {
     vi.stubGlobal('chrome', {
+      runtime: {
+        getURL: vi.fn((path: string) => `chrome-extension://test/${path}`),
+      },
       storage: {
         local: {
           get: vi.fn().mockResolvedValue({}),
           set: vi.fn().mockResolvedValue(undefined),
+          remove: vi.fn().mockResolvedValue(undefined),
         },
       },
     });
@@ -157,6 +161,9 @@ describe('MarkdownViewer', () => {
     });
 
     await waitFor(() => expect(screen.getByText('replacement.md')).toBeTruthy());
+    expect(screen.getByText('Uploaded')).toBeTruthy();
+    expect(screen.getByText('replacement.md').parentElement?.getAttribute('title'))
+      .toBe('Uploaded from this device · replacement.md');
     expect(screen.getByRole('heading', { name: 'Replacement' })).toBeTruthy();
     expect(screen.getByRole('button', { name: 'Open Markdown file' })).toBeTruthy();
   });

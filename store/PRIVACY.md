@@ -9,11 +9,12 @@ AgentMore Markdown Reader is a browser extension published by AgentMore. Its sin
 The extension processes the Markdown document currently opened by the user so it can render that document locally in the browser. It also stores the following information locally on the user's device:
 
 - The URL, filename, and last-viewed time for up to 30 recently viewed Markdown documents.
+- The source of Markdown files explicitly chosen through the extension's file picker, stored locally so those files can be reopened and copied from recent history.
 - The user's selected light or dark theme.
 
 ## How data is used
 
-Markdown content is used only to display the requested document. Recent-document information is used only to provide the extension's history popup. The theme setting is used only to remember the user's display preference.
+Markdown content is used only to display, reopen, copy, or download the requested document. Recent-document information is used only to provide the extension's history popup. The theme setting is used only to remember the user's display preference.
 
 ## Data sharing and transmission
 
@@ -21,11 +22,11 @@ AgentMore Markdown Reader does not transmit Markdown content, browsing history, 
 
 ## Data retention and control
 
-All extension data remains in Chrome's local extension storage on the user's device. Users can clear recent-document history from the extension popup. Removing the extension deletes its locally stored data through the browser.
+All extension data remains in Chrome's local extension storage on the user's device. Clearing recent-document history from the extension popup also removes locally stored copies of files chosen through the picker. Removing the extension deletes its locally stored data through the browser.
 
 ## Permissions
 
-- `storage` stores recent Markdown history and the theme preference locally.
+- `storage` stores recent Markdown history, picker-opened Markdown sources, and the theme preference locally.
 - Access to local files and URLs ending in `.md` or `.markdown` lets the extension recognize and render Markdown documents. HTML pages and unrelated URLs are ignored.
 
 ## Chrome Web Store Limited Use

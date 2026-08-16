@@ -18,6 +18,7 @@ describe('Markdown history', () => {
         local: {
           get: vi.fn(async (key: string) => ({ [key]: storage[key] })),
           set: vi.fn(async (items: Record<string, unknown>) => Object.assign(storage, items)),
+          remove: vi.fn(async (keys: string[]) => keys.forEach((key) => delete storage[key])),
         },
       },
     });
@@ -32,6 +33,23 @@ describe('Markdown history', () => {
     expect(history.map((entry) => entry.filename)).toEqual(['one.md', 'two.md']);
   });
 
+  it('keeps uploaded-file identity metadata', async () => {
+    await recordMarkdownView('chrome-extension://test/viewer?upload=one', 'one.md', {
+      kind: 'uploaded',
+      location: 'Uploaded from this device · one.md',
+      uploadId: 'one',
+    });
+
+    expect(await getMarkdownHistory()).toEqual([
+      expect.objectContaining({
+        filename: 'one.md',
+        kind: 'uploaded',
+        location: 'Uploaded from this device · one.md',
+        uploadId: 'one',
+      }),
+    ]);
+  });
+
   it('bounds and validates stored history', () => {
     const input = Array.from({ length: MAX_HISTORY_ITEMS + 5 }, (_, index) => ({
       url: `https://example.com/${index}.md`,
@@ -44,8 +62,16 @@ describe('Markdown history', () => {
   });
 
   it('clears stored history', async () => {
-    storage[MARKDOWN_HISTORY_KEY] = [{ url: 'file:///one.md', filename: 'one.md', viewedAt: 1 }];
+    storage[MARKDOWN_HISTORY_KEY] = [{
+      url: 'chrome-extension://test/viewer?upload=one',
+      filename: 'one.md',
+      viewedAt: 1,
+      kind: 'uploaded',
+      uploadId: 'one',
+    }];
+    storage['markview-upload:one'] = { source: '# One' };
     await clearMarkdownHistory();
     expect(await getMarkdownHistory()).toEqual([]);
+    expect(storage['markview-upload:one']).toBeUndefined();
   });
 });

@@ -19,7 +19,9 @@ import {
 } from 'lucide-react';
 import { extractFrontmatter } from './frontmatter';
 import { FrontmatterTable } from './FrontmatterTable';
+import { recordMarkdownView } from './history';
 import { rehypeLightHighlight } from './rehypeLightHighlight';
+import { storeUploadedMarkdown, uploadedMarkdownUrl } from './uploadedMarkdown';
 
 type Mode = 'preview' | 'raw';
 type Theme = 'light' | 'dark';
@@ -27,6 +29,9 @@ type Theme = 'light' | 'dark';
 type Props = {
   source: string;
   url: string;
+  initialFilename?: string;
+  uploaded?: boolean;
+  initialLocation?: string;
 };
 
 type TocItem = {
@@ -151,7 +156,16 @@ const MarkdownPreview = React.memo(function MarkdownPreview({
   );
 });
 
-export function MarkdownViewer({ source, url }: Props) {
+function readableLocation(url: string): string {
+  try {
+    const parsed = new URL(url);
+    return parsed.protocol === 'file:' ? decodeURIComponent(parsed.pathname) : decodeURIComponent(parsed.href);
+  } catch {
+    return url;
+  }
+}
+
+export function MarkdownViewer({ source, url, initialFilename, uploaded = false, initialLocation }: Props) {
   const [mode, setMode] = useState<Mode>('preview');
   const [theme, setTheme] = useState<Theme>(getInitialTheme);
   const [copiedDocument, setCopiedDocument] = useState(false);
@@ -159,7 +173,9 @@ export function MarkdownViewer({ source, url }: Props) {
   const [tocItems, setTocItems] = useState<TocItem[]>([]);
   const [tocQuery, setTocQuery] = useState('');
   const [activeSource, setActiveSource] = useState(source);
-  const [filename, setFilename] = useState(() => safeFilename(url));
+  const [filename, setFilename] = useState(() => initialFilename ?? safeFilename(url));
+  const [documentLocation, setDocumentLocation] = useState(() => initialLocation ?? readableLocation(url));
+  const [isUploaded, setIsUploaded] = useState(uploaded);
   const [, startDocumentTransition] = useTransition();
   const fileInput = useRef<HTMLInputElement>(null);
   const parsed = useMemo(() => extractFrontmatter(activeSource), [activeSource]);
@@ -237,13 +253,24 @@ export function MarkdownViewer({ source, url }: Props) {
     if (!file) return;
 
     const nextSource = await file.text();
+    const nextLocation = file.webkitRelativePath || `Uploaded from this device · ${file.name}`;
     startDocumentTransition(() => {
       setActiveSource(nextSource);
       setFilename(file.name);
+      setDocumentLocation(nextLocation);
+      setIsUploaded(true);
       setMode('preview');
     });
     document.title = `${file.name} · AgentMore Markdown Reader`;
     event.target.value = '';
+    void storeUploadedMarkdown(file.name, nextSource).then((uploadedDocument) => {
+      const nextUrl = uploadedMarkdownUrl(uploadedDocument.id);
+      return recordMarkdownView(nextUrl, file.name, {
+        kind: 'uploaded',
+        location: nextLocation,
+        uploadId: uploadedDocument.id,
+      });
+    }).catch(() => undefined);
   }
 
   function showRawDocument() {
@@ -285,8 +312,9 @@ export function MarkdownViewer({ source, url }: Props) {
             </div>
           </div>
 
-          <div className="document-identity" title={filename}>
+          <div className="document-identity" title={documentLocation}>
             <span>{filename}</span>
+            {isUploaded && <span className="document-origin">Uploaded</span>}
           </div>
 
           <div className="document-stats" aria-label={`${lines} lines, ${sourceSize}`}>

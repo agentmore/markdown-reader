@@ -112,10 +112,24 @@ a:focus-visible {
   gap: 8px;
 }
 
-.document-identity span {
+.document-identity > span:first-child {
+  min-width: 0;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+}
+
+.document-origin {
+  flex: 0 0 auto;
+  padding: 2px 6px;
+  border: 1px solid var(--mv-border);
+  border-radius: 999px;
+  background: var(--mv-neutral-muted);
+  color: var(--mv-fg-muted);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  line-height: 14px;
 }
 
 .view-switch {

@@ -16,7 +16,7 @@ Markdown Reader turns raw `.md` and `.markdown` files into a polished reading vi
 - Readable nested YAML frontmatter for skill files
 - Syntax-highlighted code with an always-visible copy button
 - Source-faithful Preview and Raw modes
-- Open, copy, download, theme, and recent-document controls
+- Open files from the viewer or extension menu, then copy, download, or reopen them
 - GitHub-matched 1,012px reading canvas with responsive wrapping
 - Flash-free startup at `document_start`
 - Local-only history for the 30 most recently viewed Markdown files
@@ -44,9 +44,9 @@ Try it with [`https://agentmore.app/skill.md`](https://agentmore.app/skill.md).
 
 ## Privacy by design
 
-Markdown is parsed and rendered locally. The original source remains unchanged and is used for Raw mode, copying, and downloads. The extension stores only the theme preference and up to 30 recent Markdown URLs, filenames, and timestamps in Chrome's local extension storage.
+Markdown is parsed and rendered locally. The original source remains unchanged and is used for Raw mode, copying, and downloads. The extension stores the theme preference and up to 30 recent Markdown locations, filenames, and timestamps in Chrome's local extension storage. When you explicitly choose a file through the extension's file picker, its source is also stored locally so that entry can be reopened and copied from history. Clearing history removes those locally stored copies.
 
-There is no analytics, advertising, tracking, account system, document upload, or remote code. See the full [privacy policy](store/PRIVACY.md).
+There is no analytics, advertising, tracking, account system, network document upload, or remote code. See the full [privacy policy](store/PRIVACY.md).
 
 ## Rendering behavior
 

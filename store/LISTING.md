@@ -40,7 +40,7 @@ Render local and remote Markdown documents as a readable, GitHub-style browser v
 
 ### storage
 
-Stores the user's theme preference and up to 30 recent Markdown URLs, filenames, and timestamps locally so the history popup works. This information is never transmitted.
+Stores the user's theme preference and up to 30 recent Markdown locations, filenames, and timestamps locally so the history popup works. Files explicitly chosen through the extension picker are also stored locally so they can be reopened and copied from history. This information is never transmitted.
 
 ### Host access
 
@@ -50,7 +50,7 @@ The content script is limited to local files and HTTP/HTTPS paths ending in `.md
 
 - **Website content:** Processed locally to render the Markdown document; not collected or transmitted.
 - **Web history:** The URL, filename, and timestamp of up to 30 viewed Markdown documents are stored locally for the user-facing history popup; not transmitted.
-- **User-generated content:** Local Markdown files may contain user-generated content and are processed only on-device for rendering; not transmitted.
+- **User-generated content:** Local Markdown files may contain user-generated content. Picker-opened files are retained in local extension storage for history reopening and are never transmitted.
 - **Data sale:** No.
 - **Advertising:** No.
 - **Analytics or tracking:** No.

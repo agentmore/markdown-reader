@@ -34,6 +34,12 @@ button { font: inherit; }
   border-bottom: 1px solid var(--border);
 }
 
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
 .eyebrow {
   display: block;
   margin-bottom: 2px;
@@ -50,7 +56,8 @@ h1 {
   line-height: 22px;
 }
 
-.clear-button {
+.clear-button,
+.open-button {
   padding: 5px 9px;
   border: 1px solid var(--border);
   border-radius: 6px;
@@ -60,7 +67,13 @@ h1 {
   font-size: 12px;
 }
 
-.clear-button:hover { border-color: var(--muted); }
+.clear-button:hover,
+.open-button:hover { border-color: var(--muted); }
+
+.open-button:disabled {
+  cursor: wait;
+  opacity: 0.7;
+}
 
 .history-list {
   max-height: 480px;
@@ -71,6 +84,13 @@ h1 {
 }
 
 .history-list li { margin: 0; }
+
+.history-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 32px;
+  align-items: center;
+  gap: 2px;
+}
 
 .history-item {
   display: grid;
@@ -103,22 +123,67 @@ h1 {
   color: var(--muted);
 }
 
-.history-copy {
+.history-details {
   display: flex;
   min-width: 0;
   flex-direction: column;
-  gap: 2px;
+  gap: 3px;
 }
 
-.history-copy strong,
-.history-copy span {
+.history-name-line {
+  display: flex;
+  min-width: 0;
+  align-items: center;
+  gap: 6px;
+}
+
+.history-name-line strong {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
 
-.history-copy strong { font-size: 13px; }
-.history-copy span { color: var(--muted); font-size: 12px; }
+.history-name-line strong { font-size: 13px; }
+
+.uploaded-badge {
+  flex: 0 0 auto;
+  padding: 1px 5px;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  color: var(--muted);
+  font-size: 9px;
+  font-weight: 600;
+  line-height: 14px;
+}
+
+.history-path {
+  color: var(--muted);
+  font-size: 11px;
+  line-height: 15px;
+  overflow-wrap: anywhere;
+}
+
+.entry-copy-button {
+  display: grid;
+  width: 30px;
+  height: 30px;
+  padding: 0;
+  place-items: center;
+  border: 0;
+  border-radius: 6px;
+  background: transparent;
+  color: var(--muted);
+  cursor: pointer;
+  font-size: 17px;
+}
+
+.entry-copy-button:hover,
+.entry-copy-button:focus-visible {
+  outline: none;
+  background: var(--surface);
+  color: var(--text);
+}
+
 .open-glyph { color: var(--muted); }
 
 .empty-state {
