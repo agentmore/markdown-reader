@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useRef, useState, useTransition } from 'react';
+import React, { useEffect, useLayoutEffect, useMemo, useRef, useState, useTransition } from 'react';
 import ReactMarkdown, { type Components } from 'react-markdown';
 import rehypeAutolinkHeadings from 'rehype-autolink-headings';
 import rehypeRaw from 'rehype-raw';
@@ -11,8 +11,10 @@ import {
   Clipboard,
   Download,
   FolderOpen,
+  ListTree,
   Moon,
   Sun,
+  X,
 } from 'lucide-react';
 import { extractFrontmatter } from './frontmatter';
 import { FrontmatterTable } from './FrontmatterTable';
@@ -24,6 +26,12 @@ type Theme = 'light' | 'dark';
 type Props = {
   source: string;
   url: string;
+};
+
+type TocItem = {
+  id: string;
+  label: string;
+  level: number;
 };
 
 function safeFilename(url: string): string {
@@ -146,6 +154,8 @@ export function MarkdownViewer({ source, url }: Props) {
   const [mode, setMode] = useState<Mode>('preview');
   const [theme, setTheme] = useState<Theme>(getInitialTheme);
   const [copiedDocument, setCopiedDocument] = useState(false);
+  const [tocOpen, setTocOpen] = useState(false);
+  const [tocItems, setTocItems] = useState<TocItem[]>([]);
   const [activeSource, setActiveSource] = useState(source);
   const [filename, setFilename] = useState(() => safeFilename(url));
   const [, startDocumentTransition] = useTransition();
@@ -167,6 +177,33 @@ export function MarkdownViewer({ source, url }: Props) {
     document.documentElement.style.colorScheme = theme;
     chrome.storage?.local.set({ 'markview-theme': theme }).catch(() => undefined);
   }, [theme]);
+
+  useLayoutEffect(() => {
+    if (!tocOpen || mode !== 'preview') {
+      setTocItems([]);
+      return;
+    }
+
+    const items = Array.from(document.querySelectorAll<HTMLHeadingElement>('.markdown-body h1, .markdown-body h2, .markdown-body h3, .markdown-body h4, .markdown-body h5, .markdown-body h6'))
+      .filter((heading) => heading.id && heading.textContent?.trim())
+      .map((heading) => ({
+        id: heading.id,
+        label: heading.textContent!.trim(),
+        level: Number(heading.tagName.slice(1)),
+      }));
+    setTocItems(items);
+  }, [activeSource, mode, tocOpen]);
+
+  useEffect(() => {
+    if (!tocOpen) return;
+
+    function closeOnEscape(event: KeyboardEvent) {
+      if (event.key === 'Escape') setTocOpen(false);
+    }
+
+    document.addEventListener('keydown', closeOnEscape);
+    return () => document.removeEventListener('keydown', closeOnEscape);
+  }, [tocOpen]);
 
   async function copyDocument() {
     await copyText(activeSource);
@@ -198,7 +235,19 @@ export function MarkdownViewer({ source, url }: Props) {
   }
 
   function showRawDocument() {
+    setTocOpen(false);
     setMode('raw');
+  }
+
+  function toggleTableOfContents() {
+    if (mode === 'raw') setMode('preview');
+    setTocOpen((open) => !open);
+  }
+
+  function jumpToHeading(id: string) {
+    document.getElementById(id)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    window.history.replaceState(null, '', `#${id}`);
+    setTocOpen(false);
   }
 
   return (
@@ -240,9 +289,41 @@ export function MarkdownViewer({ source, url }: Props) {
             <button className="icon-button" type="button" onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')} title={`Use ${theme === 'dark' ? 'light' : 'dark'} theme`} aria-label={`Use ${theme === 'dark' ? 'light' : 'dark'} theme`}>
               {theme === 'dark' ? <Sun size={18} /> : <Moon size={18} />}
             </button>
+            <button className="icon-button" type="button" onClick={toggleTableOfContents} title="Table of contents" aria-label="Table of contents" aria-expanded={tocOpen} aria-controls="markdown-table-of-contents">
+              <ListTree size={18} aria-hidden="true" />
+            </button>
           </div>
         </div>
       </header>
+
+      {tocOpen && mode === 'preview' && (
+        <aside id="markdown-table-of-contents" className="toc-panel" aria-label="Table of contents">
+          <div className="toc-header">
+            <strong>Contents</strong>
+            <button className="toc-close" type="button" onClick={() => setTocOpen(false)} aria-label="Close table of contents" title="Close">
+              <X size={16} aria-hidden="true" />
+            </button>
+          </div>
+          {tocItems.length > 0 ? (
+            <nav className="toc-list" aria-label="Document headings">
+              {tocItems.map((item) => (
+                <button
+                  key={item.id}
+                  className="toc-item"
+                  type="button"
+                  onClick={() => jumpToHeading(item.id)}
+                  style={{ paddingLeft: `${12 + (item.level - 1) * 12}px` }}
+                  title={item.label}
+                >
+                  {item.label}
+                </button>
+              ))}
+            </nav>
+          ) : (
+            <p className="toc-empty">No headings in this document.</p>
+          )}
+        </aside>
+      )}
 
       {mode === 'preview' ? (
         <main className="document-frame">

@@ -105,6 +105,7 @@ describe('MarkdownViewer', () => {
       'Download Markdown',
       'Open Markdown file',
       'Use dark theme',
+      'Table of contents',
     ]);
 
     fireEvent.click(screen.getByRole('button', { name: 'Copy Markdown' }));
@@ -112,6 +113,20 @@ describe('MarkdownViewer', () => {
 
     fireEvent.click(screen.getByRole('button', { name: 'Use dark theme' }));
     await waitFor(() => expect(document.documentElement.dataset.markviewTheme).toBe('dark'));
+  });
+
+  it('opens a heading table of contents from the far-right action', async () => {
+    render(<MarkdownViewer source={source} url="file:///tmp/postiz.md" />);
+
+    const toggle = screen.getByRole('button', { name: 'Table of contents' });
+    fireEvent.click(toggle);
+
+    await waitFor(() => expect(screen.getByRole('navigation', { name: 'Document headings' })).toBeTruthy());
+    expect(screen.getByRole('button', { name: 'Read first' })).toBeTruthy();
+    expect(toggle.getAttribute('aria-expanded')).toBe('true');
+
+    fireEvent.click(screen.getByRole('button', { name: 'Close table of contents' }));
+    expect(toggle.getAttribute('aria-expanded')).toBe('false');
   });
 
   it('opens another Markdown file from the file icon', async () => {

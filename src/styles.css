@@ -188,6 +188,95 @@ a:focus-visible {
   color: var(--mv-fg);
 }
 
+.icon-button[aria-expanded='true'] {
+  background: var(--mv-neutral-muted);
+  color: var(--mv-fg);
+}
+
+.toc-panel {
+  position: fixed;
+  z-index: 45;
+  top: 60px;
+  left: 12px;
+  width: min(280px, calc(100vw - 24px));
+  max-height: calc(100vh - 72px);
+  overflow: hidden;
+  border: 1px solid var(--mv-border);
+  border-radius: 8px;
+  background: color-mix(in srgb, var(--mv-bg-subtle) 96%, transparent);
+  box-shadow: 0 12px 32px rgba(1, 4, 9, 0.32);
+  color: var(--mv-fg);
+  backdrop-filter: blur(14px);
+}
+
+.toc-header {
+  display: flex;
+  min-height: 42px;
+  padding: 0 8px 0 12px;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid var(--mv-border-muted);
+  font-size: 13px;
+}
+
+.toc-close {
+  display: inline-grid;
+  width: 28px;
+  height: 28px;
+  padding: 0;
+  place-items: center;
+  border: 0;
+  border-radius: 6px;
+  background: transparent;
+  color: var(--mv-fg-muted);
+  cursor: pointer;
+}
+
+.toc-close:hover,
+.toc-close:focus-visible {
+  background: var(--mv-neutral-muted);
+  color: var(--mv-fg);
+}
+
+.toc-list {
+  max-height: calc(100vh - 116px);
+  padding: 6px;
+  overflow-y: auto;
+}
+
+.toc-item {
+  display: block;
+  width: 100%;
+  min-height: 32px;
+  padding-top: 6px;
+  padding-right: 10px;
+  padding-bottom: 6px;
+  overflow: hidden;
+  border: 0;
+  border-radius: 6px;
+  background: transparent;
+  color: var(--mv-fg-muted);
+  cursor: pointer;
+  font-size: 13px;
+  line-height: 1.35;
+  text-align: left;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.toc-item:hover,
+.toc-item:focus-visible {
+  background: var(--mv-neutral-muted);
+  color: var(--mv-fg);
+}
+
+.toc-empty {
+  margin: 0;
+  padding: 18px 14px;
+  color: var(--mv-fg-muted);
+  font-size: 13px;
+}
+
 .document-frame {
   width: 100%;
   /* GitHub's rendered Markdown body is 1012px; 32px gutters make 1076px. */
@@ -636,6 +725,15 @@ a:focus-visible {
 
   .markdown-body {
     font-size: 15px;
+  }
+
+  .toc-panel {
+    top: 112px;
+    max-height: calc(100vh - 124px);
+  }
+
+  .toc-list {
+    max-height: calc(100vh - 168px);
   }
 
 }
