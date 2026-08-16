@@ -23,8 +23,8 @@
   --mv-bg-inset: #151b23;
   --mv-border: #3d444d;
   --mv-border-muted: rgba(61, 68, 77, 0.7);
-  --mv-fg: #f0f6fc;
-  --mv-fg-muted: #9198a1;
+  --mv-fg: #ffffff;
+  --mv-fg-muted: #d0d7de;
   --mv-accent: #4493f8;
   --mv-accent-muted: rgba(56, 139, 253, 0.4);
   --mv-neutral-muted: rgba(110, 118, 129, 0.4);
@@ -561,7 +561,7 @@ a:focus-visible {
 .hljs-addition { color: #116329; background-color: #dafbe1; }
 .hljs-deletion { color: #82071e; background-color: #ffebe9; }
 
-:root[data-markview-theme='dark'] .hljs { color: #e6edf3; }
+:root[data-markview-theme='dark'] .hljs { color: #ffffff; }
 :root[data-markview-theme='dark'] .hljs-doctag,
 :root[data-markview-theme='dark'] .hljs-keyword,
 :root[data-markview-theme='dark'] .hljs-meta .hljs-keyword,
