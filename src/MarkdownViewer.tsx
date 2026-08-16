@@ -373,7 +373,6 @@ export function MarkdownViewer({ source, url }: Props) {
                   type="button"
                   onClick={() => jumpToHeading(item.id)}
                   style={{ paddingLeft: `${12 + (item.level - 1) * 12}px` }}
-                  data-level={item.level}
                   aria-current={activeHeadingId === item.id ? 'location' : undefined}
                   title={item.label}
                 >

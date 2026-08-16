@@ -282,10 +282,10 @@ a:focus-visible {
 .toc-item {
   display: block;
   width: 100%;
-  min-height: 36px;
-  padding-top: 7px;
+  min-height: 32px;
+  padding-top: 6px;
   padding-right: 10px;
-  padding-bottom: 7px;
+  padding-bottom: 6px;
   overflow: hidden;
   border: 0;
   border-radius: 6px;
@@ -312,26 +312,10 @@ a:focus-visible {
 }
 
 .toc-item-label {
-  min-width: 0;
+  display: block;
   overflow: hidden;
-  display: -webkit-box;
-  -webkit-box-orient: vertical;
-  -webkit-line-clamp: 2;
-}
-
-.toc-item[data-level='1'] .toc-item-label {
-  color: var(--mv-fg);
-  font-size: 14px;
-  font-weight: 700;
-}
-
-.toc-item[data-level='2'] .toc-item-label {
-  color: var(--mv-fg);
-  font-weight: 650;
-}
-
-.toc-item[data-level='3'] .toc-item-label {
-  font-weight: 600;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .toc-empty {
