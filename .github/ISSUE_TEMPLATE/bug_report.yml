@@ -1,0 +1,41 @@
+name: Bug report
+description: Report a reproducible problem with Markdown Reader
+title: "[Bug]: "
+labels: [bug]
+body:
+  - type: markdown
+    attributes:
+      value: Thanks for helping improve AgentMore Markdown Reader. Do not attach private Markdown or secrets.
+  - type: input
+    id: browser
+    attributes:
+      label: Browser and version
+      placeholder: Brave 1.x or Chrome 1xx
+    validations:
+      required: true
+  - type: input
+    id: operating-system
+    attributes:
+      label: Operating system
+      placeholder: macOS, Windows, or Linux version
+    validations:
+      required: true
+  - type: textarea
+    id: reproduce
+    attributes:
+      label: Steps to reproduce
+      description: Provide a minimal public Markdown URL or sanitized example when possible.
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behavior
+    validations:
+      required: true
+  - type: textarea
+    id: actual
+    attributes:
+      label: Actual behavior
+    validations:
+      required: true

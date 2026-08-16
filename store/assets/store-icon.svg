@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" role="img" aria-labelledby="title">
+  <title id="title">AgentMore Markdown Reader</title>
+  <g transform="translate(16 16) scale(.75)">
+    <rect width="128" height="128" rx="28" fill="#0969da"/>
+    <path d="M35 20h38l20 20v68H35z" fill="#f0f6fc"/>
+    <path d="M73 20v20h20z" fill="#b6dafc"/>
+    <path d="M48 58h32M48 72h32M48 86h22" fill="none" stroke="#0969da" stroke-linecap="round" stroke-width="7"/>
+  </g>
+</svg>

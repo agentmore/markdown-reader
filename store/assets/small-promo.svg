@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 440 280" role="img" aria-labelledby="title description">
+  <title id="title">AgentMore Markdown Reader</title>
+  <desc id="description">A private, GitHub-style Markdown reader.</desc>
+  <rect width="440" height="280" fill="#0d1117"/>
+  <circle cx="382" cy="36" r="110" fill="#0969da" opacity=".12"/>
+  <g transform="translate(42 48) scale(.82)">
+    <rect width="128" height="128" rx="28" fill="#0969da"/>
+    <path d="M35 20h38l20 20v68H35z" fill="#f0f6fc"/>
+    <path d="M73 20v20h20z" fill="#b6dafc"/>
+    <path d="M48 58h32M48 72h32M48 86h22" fill="none" stroke="#0969da" stroke-linecap="round" stroke-width="7"/>
+  </g>
+  <text x="42" y="190" fill="#8b949e" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, sans-serif" font-size="15" font-weight="600" letter-spacing="1.5">AGENTMORE</text>
+  <text x="42" y="222" fill="#f0f6fc" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, sans-serif" font-size="28" font-weight="650">Markdown Reader</text>
+  <text x="42" y="249" fill="#9198a1" font-family="-apple-system, BlinkMacSystemFont, Segoe UI, sans-serif" font-size="15">Local. Private. GitHub-style.</text>
+</svg>
