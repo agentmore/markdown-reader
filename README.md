@@ -44,7 +44,7 @@ Try it with [`https://agentmore.app/skill.md`](https://agentmore.app/skill.md).
 
 ## Privacy by design
 
-Markdown is parsed and rendered locally. The original source remains unchanged and is used for Raw mode, copying, and downloads. The extension stores the theme preference and up to 30 recent Markdown locations, filenames, and timestamps in Chrome's local extension storage. When you explicitly choose a file through the extension's file picker, its source is also stored locally so that entry can be reopened and copied from history. Clearing history removes those locally stored copies.
+Markdown is parsed and rendered locally. The original source remains unchanged and is used for Raw mode, copying, and downloads. The extension stores the theme and Preview/Raw preferences plus up to 30 recent Markdown locations, filenames, and timestamps in Chrome's local extension storage. When you explicitly choose a file through the extension's file picker, its source is also stored locally so that entry can be reopened and copied from history. Clearing history removes those locally stored copies.
 
 There is no analytics, advertising, tracking, account system, network document upload, or remote code. See the full [privacy policy](store/PRIVACY.md).
 

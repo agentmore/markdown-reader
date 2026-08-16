@@ -22,7 +22,7 @@ if (isMarkdownPath(window.location.pathname) && isRawMarkdownDocument(document.c
   const viewerReady = import('./viewerEntry');
   void Promise.all([documentReady, viewerReady])
     .then(([, { mountMarkdownViewer }]) => {
-      mountMarkdownViewer(readOriginalSource(), window.location.href);
+      return mountMarkdownViewer(readOriginalSource(), window.location.href);
     })
     .catch(() => {
       root.style.removeProperty('visibility');

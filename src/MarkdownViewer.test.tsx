@@ -94,9 +94,21 @@ describe('MarkdownViewer', () => {
     expect(container.querySelector('.toolbar')).toBeTruthy();
     expect(container.querySelector('.document-frame')).toBeNull();
     expect(screen.getByRole('tab', { name: 'Raw' }).getAttribute('aria-selected')).toBe('true');
+    expect(chrome.storage.local.set).toHaveBeenCalledWith({ 'markview-mode': 'raw' });
 
     fireEvent.click(screen.getByRole('tab', { name: 'Preview' }));
     expect(container.querySelector('.document-frame')).toBeTruthy();
+    expect(chrome.storage.local.set).toHaveBeenCalledWith({ 'markview-mode': 'preview' });
+  });
+
+  it('can start in the globally remembered raw mode', () => {
+    const { container } = render(
+      <MarkdownViewer source={source} url="file:///tmp/postiz.md" initialMode="raw" />,
+    );
+
+    expect(screen.getByRole('tab', { name: 'Raw' }).getAttribute('aria-selected')).toBe('true');
+    expect(container.querySelector('.native-raw')?.textContent).toBe(source);
+    expect(container.querySelector('.document-frame')).toBeNull();
   });
 
   it('copies the original Markdown and toggles the theme', async () => {
@@ -166,5 +178,21 @@ describe('MarkdownViewer', () => {
       .toBe('Uploaded from this device · replacement.md');
     expect(screen.getByRole('heading', { name: 'Replacement' })).toBeTruthy();
     expect(screen.getByRole('button', { name: 'Open Markdown file' })).toBeTruthy();
+  });
+
+  it('keeps the current raw mode when opening another file', async () => {
+    render(<MarkdownViewer source={source} url="file:///tmp/postiz.md" initialMode="raw" />);
+    const replacement = new File(['# Replacement'], 'replacement.md', { type: 'text/markdown' });
+    Object.defineProperty(replacement, 'text', {
+      value: vi.fn().mockResolvedValue('# Replacement'),
+    });
+
+    fireEvent.change(screen.getByLabelText('Choose Markdown file'), {
+      target: { files: [replacement] },
+    });
+
+    await waitFor(() => expect(screen.getByText('replacement.md')).toBeTruthy());
+    expect(screen.getByRole('tab', { name: 'Raw' }).getAttribute('aria-selected')).toBe('true');
+    expect(document.querySelector('.native-raw')?.textContent).toBe('# Replacement');
   });
 });

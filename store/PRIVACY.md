@@ -10,11 +10,11 @@ The extension processes the Markdown document currently opened by the user so it
 
 - The URL, filename, and last-viewed time for up to 30 recently viewed Markdown documents.
 - The source of Markdown files explicitly chosen through the extension's file picker, stored locally so those files can be reopened and copied from recent history.
-- The user's selected light or dark theme.
+- The user's selected light or dark theme and Preview or Raw view mode.
 
 ## How data is used
 
-Markdown content is used only to display, reopen, copy, or download the requested document. Recent-document information is used only to provide the extension's history popup. The theme setting is used only to remember the user's display preference.
+Markdown content is used only to display, reopen, copy, or download the requested document. Recent-document information is used only to provide the extension's history popup. Theme and view-mode settings are used only to remember the user's display preferences.
 
 ## Data sharing and transmission
 

@@ -5,6 +5,7 @@ import { recordMarkdownView } from './history';
 import { MarkdownViewer } from './MarkdownViewer';
 import viewerStyles from './styles.css?inline';
 import { getUploadedMarkdown, uploadedMarkdownUrl } from './uploadedMarkdown';
+import { getSavedViewMode } from './viewModePreference';
 
 export async function mountUploadedViewer(mount: HTMLElement, uploadId: string): Promise<void> {
   const uploadedDocument = await getUploadedMarkdown(uploadId);
@@ -13,6 +14,7 @@ export async function mountUploadedViewer(mount: HTMLElement, uploadId: string):
     mount.textContent = 'This uploaded Markdown file is no longer available.';
     return;
   }
+  const initialMode = await getSavedViewMode();
 
   const url = uploadedMarkdownUrl(uploadId);
   const location = `Uploaded from this device · ${uploadedDocument.filename}`;
@@ -37,6 +39,7 @@ export async function mountUploadedViewer(mount: HTMLElement, uploadId: string):
         initialFilename={uploadedDocument.filename}
         uploaded
         initialLocation={location}
+        initialMode={initialMode}
       />,
     );
   });

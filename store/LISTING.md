@@ -40,7 +40,7 @@ Render local and remote Markdown documents as a readable, GitHub-style browser v
 
 ### storage
 
-Stores the user's theme preference and up to 30 recent Markdown locations, filenames, and timestamps locally so the history popup works. Files explicitly chosen through the extension picker are also stored locally so they can be reopened and copied from history. This information is never transmitted.
+Stores the user's theme and Preview/Raw preferences plus up to 30 recent Markdown locations, filenames, and timestamps locally so the reader and history popup remember their state. Files explicitly chosen through the extension picker are also stored locally so they can be reopened and copied from history. This information is never transmitted.
 
 ### Host access
 

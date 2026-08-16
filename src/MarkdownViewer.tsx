@@ -22,8 +22,8 @@ import { FrontmatterTable } from './FrontmatterTable';
 import { recordMarkdownView } from './history';
 import { rehypeLightHighlight } from './rehypeLightHighlight';
 import { storeUploadedMarkdown, uploadedMarkdownUrl } from './uploadedMarkdown';
+import { saveViewMode, type ViewMode } from './viewModePreference';
 
-type Mode = 'preview' | 'raw';
 type Theme = 'light' | 'dark';
 
 type Props = {
@@ -32,6 +32,7 @@ type Props = {
   initialFilename?: string;
   uploaded?: boolean;
   initialLocation?: string;
+  initialMode?: ViewMode;
 };
 
 type TocItem = {
@@ -165,8 +166,8 @@ function readableLocation(url: string): string {
   }
 }
 
-export function MarkdownViewer({ source, url, initialFilename, uploaded = false, initialLocation }: Props) {
-  const [mode, setMode] = useState<Mode>('preview');
+export function MarkdownViewer({ source, url, initialFilename, uploaded = false, initialLocation, initialMode = 'preview' }: Props) {
+  const [mode, setMode] = useState<ViewMode>(initialMode);
   const [theme, setTheme] = useState<Theme>(getInitialTheme);
   const [copiedDocument, setCopiedDocument] = useState(false);
   const [tocOpen, setTocOpen] = useState(false);
@@ -239,6 +240,11 @@ export function MarkdownViewer({ source, url, initialFilename, uploaded = false,
     window.setTimeout(() => setCopiedDocument(false), 1600);
   }
 
+  function changeMode(nextMode: ViewMode) {
+    setMode(nextMode);
+    void saveViewMode(nextMode).catch(() => undefined);
+  }
+
   function downloadDocument() {
     const blobUrl = URL.createObjectURL(new Blob([activeSource], { type: 'text/markdown;charset=utf-8' }));
     const link = document.createElement('a');
@@ -259,7 +265,6 @@ export function MarkdownViewer({ source, url, initialFilename, uploaded = false,
       setFilename(file.name);
       setDocumentLocation(nextLocation);
       setIsUploaded(true);
-      setMode('preview');
     });
     document.title = `${file.name} · AgentMore Markdown Reader`;
     event.target.value = '';
@@ -275,7 +280,7 @@ export function MarkdownViewer({ source, url, initialFilename, uploaded = false,
 
   function showRawDocument() {
     closeTableOfContents();
-    setMode('raw');
+    changeMode('raw');
   }
 
   function toggleTableOfContents() {
@@ -283,7 +288,7 @@ export function MarkdownViewer({ source, url, initialFilename, uploaded = false,
       closeTableOfContents();
       return;
     }
-    if (mode === 'raw') setMode('preview');
+    if (mode === 'raw') changeMode('preview');
     setTocOpen(true);
   }
 
@@ -303,7 +308,7 @@ export function MarkdownViewer({ source, url, initialFilename, uploaded = false,
         <div className="toolbar-inner">
           <div className="toolbar-primary">
             <div className="view-switch" role="tablist" aria-label="Document view">
-              <button type="button" role="tab" aria-selected={mode === 'preview'} className={mode === 'preview' ? 'active' : ''} onClick={() => setMode('preview')}>
+              <button type="button" role="tab" aria-selected={mode === 'preview'} className={mode === 'preview' ? 'active' : ''} onClick={() => changeMode('preview')}>
                 Preview
               </button>
               <button type="button" role="tab" aria-selected={mode === 'raw'} className={mode === 'raw' ? 'active' : ''} onClick={showRawDocument} title="Show native raw text">
