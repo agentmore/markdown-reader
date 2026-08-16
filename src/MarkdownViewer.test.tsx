@@ -127,6 +127,7 @@ describe('MarkdownViewer', () => {
 
     const filter = screen.getByRole('searchbox', { name: 'Filter table of contents' });
     expect(document.activeElement).not.toBe(filter);
+    expect(screen.getByRole('button', { name: 'Read first' }).getAttribute('aria-current')).toBeNull();
     fireEvent.change(filter, { target: { value: 'missing' } });
     await waitFor(() => expect(screen.getByText('No matching headings.')).toBeTruthy());
     fireEvent.change(filter, { target: { value: 'read' } });
@@ -137,7 +138,7 @@ describe('MarkdownViewer', () => {
     const headingLink = await screen.findByRole('button', { name: 'Read first' });
     fireEvent.click(headingLink);
     expect(scrollIntoView).toHaveBeenCalledOnce();
-    expect(headingLink.getAttribute('aria-current')).toBe('location');
+    expect(headingLink.getAttribute('aria-current')).toBeNull();
     expect(toggle.getAttribute('aria-expanded')).toBe('true');
 
     fireEvent.click(screen.getByRole('button', { name: 'Close table of contents' }));

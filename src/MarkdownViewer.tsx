@@ -158,7 +158,6 @@ export function MarkdownViewer({ source, url }: Props) {
   const [tocOpen, setTocOpen] = useState(false);
   const [tocItems, setTocItems] = useState<TocItem[]>([]);
   const [tocQuery, setTocQuery] = useState('');
-  const [activeHeadingId, setActiveHeadingId] = useState('');
   const [activeSource, setActiveSource] = useState(source);
   const [filename, setFilename] = useState(() => safeFilename(url));
   const [, startDocumentTransition] = useTransition();
@@ -218,34 +217,6 @@ export function MarkdownViewer({ source, url }: Props) {
     return () => document.removeEventListener('keydown', closeOnEscape);
   }, [tocOpen]);
 
-  useEffect(() => {
-    if (!tocOpen || tocItems.length === 0) return;
-
-    let frame = 0;
-    function updateActiveHeading() {
-      window.cancelAnimationFrame(frame);
-      frame = window.requestAnimationFrame(() => {
-        const marker = 76;
-        let active = tocItems[0].id;
-        for (const item of tocItems) {
-          const heading = document.getElementById(item.id);
-          if (heading && heading.getBoundingClientRect().top <= marker) active = item.id;
-          else break;
-        }
-        setActiveHeadingId(active);
-      });
-    }
-
-    updateActiveHeading();
-    window.addEventListener('scroll', updateActiveHeading, { passive: true });
-    window.addEventListener('resize', updateActiveHeading);
-    return () => {
-      window.cancelAnimationFrame(frame);
-      window.removeEventListener('scroll', updateActiveHeading);
-      window.removeEventListener('resize', updateActiveHeading);
-    };
-  }, [tocItems, tocOpen]);
-
   async function copyDocument() {
     await copyText(activeSource);
     setCopiedDocument(true);
@@ -297,7 +268,6 @@ export function MarkdownViewer({ source, url }: Props) {
   function jumpToHeading(id: string) {
     document.getElementById(id)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
     window.history.replaceState(null, '', `#${id}`);
-    setActiveHeadingId(id);
   }
 
   return (
@@ -373,7 +343,6 @@ export function MarkdownViewer({ source, url }: Props) {
                   type="button"
                   onClick={() => jumpToHeading(item.id)}
                   style={{ paddingLeft: `${12 + (item.level - 1) * 12}px` }}
-                  aria-current={activeHeadingId === item.id ? 'location' : undefined}
                   title={item.label}
                 >
                   <span className="toc-item-label">{item.label}</span>

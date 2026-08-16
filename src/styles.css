@@ -252,8 +252,8 @@ a:focus-visible {
 }
 
 .toc-search:focus-within {
-  border-color: var(--mv-accent);
-  box-shadow: 0 0 0 2px color-mix(in srgb, var(--mv-accent) 22%, transparent);
+  border-color: var(--mv-fg-muted);
+  box-shadow: 0 0 0 2px var(--mv-neutral-muted);
   color: var(--mv-fg);
 }
 
@@ -300,14 +300,7 @@ a:focus-visible {
 
 .toc-item:hover,
 .toc-item:focus-visible {
-  background: color-mix(in srgb, var(--mv-accent) 11%, transparent);
-  box-shadow: inset 2px 0 var(--mv-accent);
-  color: var(--mv-fg);
-}
-
-.toc-item[aria-current='location'] {
-  background: color-mix(in srgb, var(--mv-accent) 17%, transparent);
-  box-shadow: inset 3px 0 var(--mv-accent);
+  background: var(--mv-neutral-muted);
   color: var(--mv-fg);
 }
 
