@@ -123,6 +123,21 @@ describe('MarkdownViewer', () => {
 
     await waitFor(() => expect(screen.getByRole('navigation', { name: 'Document headings' })).toBeTruthy());
     expect(screen.getByRole('button', { name: 'Read first' })).toBeTruthy();
+    expect(screen.getByText('H2')).toBeTruthy();
+    expect(toggle.getAttribute('aria-expanded')).toBe('true');
+
+    const filter = screen.getByRole('searchbox', { name: 'Filter table of contents' });
+    fireEvent.change(filter, { target: { value: 'missing' } });
+    await waitFor(() => expect(screen.getByText('No matching headings.')).toBeTruthy());
+    fireEvent.change(filter, { target: { value: 'read' } });
+
+    const heading = screen.getByRole('heading', { name: 'Read first' });
+    const scrollIntoView = vi.fn();
+    Object.defineProperty(heading, 'scrollIntoView', { configurable: true, value: scrollIntoView });
+    const headingLink = await screen.findByRole('button', { name: 'Read first' });
+    fireEvent.click(headingLink);
+    expect(scrollIntoView).toHaveBeenCalledOnce();
+    expect(headingLink.getAttribute('aria-current')).toBe('location');
     expect(toggle.getAttribute('aria-expanded')).toBe('true');
 
     fireEvent.click(screen.getByRole('button', { name: 'Close table of contents' }));

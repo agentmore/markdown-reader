@@ -1,4 +1,4 @@
-import React, { useEffect, useLayoutEffect, useMemo, useRef, useState, useTransition } from 'react';
+import React, { useDeferredValue, useEffect, useLayoutEffect, useMemo, useRef, useState, useTransition } from 'react';
 import ReactMarkdown, { type Components } from 'react-markdown';
 import rehypeAutolinkHeadings from 'rehype-autolink-headings';
 import rehypeRaw from 'rehype-raw';
@@ -13,6 +13,7 @@ import {
   FolderOpen,
   ListTree,
   Moon,
+  Search,
   Sun,
   X,
 } from 'lucide-react';
@@ -156,6 +157,8 @@ export function MarkdownViewer({ source, url }: Props) {
   const [copiedDocument, setCopiedDocument] = useState(false);
   const [tocOpen, setTocOpen] = useState(false);
   const [tocItems, setTocItems] = useState<TocItem[]>([]);
+  const [tocQuery, setTocQuery] = useState('');
+  const [activeHeadingId, setActiveHeadingId] = useState('');
   const [activeSource, setActiveSource] = useState(source);
   const [filename, setFilename] = useState(() => safeFilename(url));
   const [, startDocumentTransition] = useTransition();
@@ -164,6 +167,16 @@ export function MarkdownViewer({ source, url }: Props) {
   const lines = useMemo(() => countLines(activeSource), [activeSource]);
   const sourceBytes = useMemo(() => new TextEncoder().encode(activeSource).length, [activeSource]);
   const sourceSize = useMemo(() => formatByteSize(sourceBytes), [sourceBytes]);
+  const deferredTocQuery = useDeferredValue(tocQuery);
+  const visibleTocItems = useMemo(() => {
+    const query = deferredTocQuery.trim().toLowerCase();
+    if (!query) return tocItems;
+    const terms = query.split(/\s+/);
+    return tocItems.filter((item) => {
+      const searchable = `${item.label.toLowerCase()} h${item.level}`;
+      return terms.every((term) => searchable.includes(term));
+    });
+  }, [deferredTocQuery, tocItems]);
 
   useEffect(() => {
     chrome.storage?.local.get('markview-theme').then((stored) => {
@@ -198,12 +211,40 @@ export function MarkdownViewer({ source, url }: Props) {
     if (!tocOpen) return;
 
     function closeOnEscape(event: KeyboardEvent) {
-      if (event.key === 'Escape') setTocOpen(false);
+      if (event.key === 'Escape') closeTableOfContents();
     }
 
     document.addEventListener('keydown', closeOnEscape);
     return () => document.removeEventListener('keydown', closeOnEscape);
   }, [tocOpen]);
+
+  useEffect(() => {
+    if (!tocOpen || tocItems.length === 0) return;
+
+    let frame = 0;
+    function updateActiveHeading() {
+      window.cancelAnimationFrame(frame);
+      frame = window.requestAnimationFrame(() => {
+        const marker = 76;
+        let active = tocItems[0].id;
+        for (const item of tocItems) {
+          const heading = document.getElementById(item.id);
+          if (heading && heading.getBoundingClientRect().top <= marker) active = item.id;
+          else break;
+        }
+        setActiveHeadingId(active);
+      });
+    }
+
+    updateActiveHeading();
+    window.addEventListener('scroll', updateActiveHeading, { passive: true });
+    window.addEventListener('resize', updateActiveHeading);
+    return () => {
+      window.cancelAnimationFrame(frame);
+      window.removeEventListener('scroll', updateActiveHeading);
+      window.removeEventListener('resize', updateActiveHeading);
+    };
+  }, [tocItems, tocOpen]);
 
   async function copyDocument() {
     await copyText(activeSource);
@@ -235,19 +276,28 @@ export function MarkdownViewer({ source, url }: Props) {
   }
 
   function showRawDocument() {
-    setTocOpen(false);
+    closeTableOfContents();
     setMode('raw');
   }
 
   function toggleTableOfContents() {
+    if (tocOpen) {
+      closeTableOfContents();
+      return;
+    }
     if (mode === 'raw') setMode('preview');
-    setTocOpen((open) => !open);
+    setTocOpen(true);
+  }
+
+  function closeTableOfContents() {
+    setTocOpen(false);
+    setTocQuery('');
   }
 
   function jumpToHeading(id: string) {
     document.getElementById(id)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
     window.history.replaceState(null, '', `#${id}`);
-    setTocOpen(false);
+    setActiveHeadingId(id);
   }
 
   return (
@@ -300,24 +350,39 @@ export function MarkdownViewer({ source, url }: Props) {
         <aside id="markdown-table-of-contents" className="toc-panel" aria-label="Table of contents">
           <div className="toc-header">
             <strong>Contents</strong>
-            <button className="toc-close" type="button" onClick={() => setTocOpen(false)} aria-label="Close table of contents" title="Close">
+            <button className="toc-close" type="button" onClick={closeTableOfContents} aria-label="Close table of contents" title="Close">
               <X size={16} aria-hidden="true" />
             </button>
           </div>
+          <label className="toc-search">
+            <Search size={15} aria-hidden="true" />
+            <input
+              type="search"
+              value={tocQuery}
+              onChange={(event) => setTocQuery(event.target.value)}
+              placeholder="Filter headings…"
+              aria-label="Filter table of contents"
+              autoFocus
+            />
+          </label>
           {tocItems.length > 0 ? (
             <nav className="toc-list" aria-label="Document headings">
-              {tocItems.map((item) => (
+              {visibleTocItems.map((item) => (
                 <button
                   key={item.id}
                   className="toc-item"
                   type="button"
                   onClick={() => jumpToHeading(item.id)}
                   style={{ paddingLeft: `${12 + (item.level - 1) * 12}px` }}
+                  data-level={item.level}
+                  aria-current={activeHeadingId === item.id ? 'location' : undefined}
                   title={item.label}
                 >
-                  {item.label}
+                  <span className="toc-level-label" aria-hidden="true">H{item.level}</span>
+                  <span className="toc-item-label">{item.label}</span>
                 </button>
               ))}
+              {visibleTocItems.length === 0 && <p className="toc-empty">No matching headings.</p>}
             </nav>
           ) : (
             <p className="toc-empty">No headings in this document.</p>
