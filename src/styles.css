@@ -667,9 +667,9 @@ a:focus-visible {
   background: var(--mv-bg);
   color: var(--mv-fg);
   font-family: var(--mv-font-mono);
-  font-size: 14px;
-  font-weight: 500;
-  line-height: 1.5;
+  font-size: 13px;
+  font-weight: 400;
+  line-height: 1.4;
   overflow-wrap: anywhere;
   tab-size: 8;
   white-space: pre-wrap;
