@@ -39,7 +39,7 @@
 
 html {
   min-width: 320px;
-  overflow-x: hidden;
+  overflow-x: clip;
   background: var(--mv-bg) !important;
 }
 
@@ -47,7 +47,7 @@ body {
   margin: 0 !important;
   min-width: 320px;
   min-height: calc(100vh - 64px);
-  overflow-x: hidden !important;
+  overflow-x: clip !important;
   background: var(--mv-bg) !important;
   color: var(--mv-fg) !important;
   font-family: var(--mv-font-sans) !important;
@@ -69,6 +69,7 @@ a:focus-visible {
 
 .viewer {
   min-height: 100vh;
+  overflow: visible;
   background: var(--mv-bg);
   color: var(--mv-fg);
 }
@@ -77,6 +78,8 @@ a:focus-visible {
   position: sticky;
   z-index: 50;
   top: 0;
+  inset-block-start: 0;
+  width: 100%;
   height: 52px;
   border-bottom: 1px solid var(--mv-border);
   background: color-mix(in srgb, var(--mv-bg-subtle) 94%, transparent);
