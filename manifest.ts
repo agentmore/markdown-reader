@@ -31,7 +31,7 @@ export default defineManifest({
         'http://*/*.markdown',
         'https://*/*.markdown',
       ],
-      js: ['src/content.tsx'],
+      js: ['public/early-blank.js', 'src/content.tsx'],
       run_at: 'document_start',
     },
   ],
