@@ -123,7 +123,6 @@ describe('MarkdownViewer', () => {
 
     await waitFor(() => expect(screen.getByRole('navigation', { name: 'Document headings' })).toBeTruthy());
     expect(screen.getByRole('button', { name: 'Read first' })).toBeTruthy();
-    expect(screen.getByText('H2')).toBeTruthy();
     expect(toggle.getAttribute('aria-expanded')).toBe('true');
 
     const filter = screen.getByRole('searchbox', { name: 'Filter table of contents' });

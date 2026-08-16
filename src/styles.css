@@ -280,15 +280,12 @@ a:focus-visible {
 }
 
 .toc-item {
-  display: grid;
-  grid-template-columns: 26px minmax(0, 1fr);
+  display: block;
   width: 100%;
   min-height: 36px;
   padding-top: 7px;
   padding-right: 10px;
   padding-bottom: 7px;
-  align-items: start;
-  gap: 6px;
   overflow: hidden;
   border: 0;
   border-radius: 6px;
@@ -312,20 +309,6 @@ a:focus-visible {
   background: color-mix(in srgb, var(--mv-accent) 17%, transparent);
   box-shadow: inset 3px 0 var(--mv-accent);
   color: var(--mv-fg);
-}
-
-.toc-level-label {
-  display: inline-grid;
-  min-width: 24px;
-  height: 19px;
-  place-items: center;
-  border: 1px solid color-mix(in srgb, var(--mv-accent) 45%, var(--mv-border));
-  border-radius: 5px;
-  color: var(--mv-accent);
-  font-family: var(--mv-font-mono);
-  font-size: 9px;
-  font-weight: 700;
-  line-height: 1;
 }
 
 .toc-item-label {

@@ -173,8 +173,8 @@ export function MarkdownViewer({ source, url }: Props) {
     if (!query) return tocItems;
     const terms = query.split(/\s+/);
     return tocItems.filter((item) => {
-      const searchable = `${item.label.toLowerCase()} h${item.level}`;
-      return terms.every((term) => searchable.includes(term));
+      const label = item.label.toLowerCase();
+      return terms.every((term) => label.includes(term));
     });
   }, [deferredTocQuery, tocItems]);
 
@@ -378,7 +378,6 @@ export function MarkdownViewer({ source, url }: Props) {
                   aria-current={activeHeadingId === item.id ? 'location' : undefined}
                   title={item.label}
                 >
-                  <span className="toc-level-label" aria-hidden="true">H{item.level}</span>
                   <span className="toc-item-label">{item.label}</span>
                 </button>
               ))}
