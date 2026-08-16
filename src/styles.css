@@ -77,7 +77,7 @@ a:focus-visible {
   position: sticky;
   z-index: 50;
   top: 0;
-  height: 64px;
+  height: 52px;
   border-bottom: 1px solid var(--mv-border);
   background: color-mix(in srgb, var(--mv-bg-subtle) 94%, transparent);
   box-shadow: var(--mv-shadow);
@@ -90,8 +90,8 @@ a:focus-visible {
   width: 100%;
   height: 100%;
   margin: 0 auto;
-  padding: 0 clamp(16px, 2.4vw, 44px);
-  gap: 16px;
+  padding: 0 clamp(14px, 2vw, 32px);
+  gap: 12px;
 }
 
 .document-identity {
@@ -121,21 +121,21 @@ a:focus-visible {
 .view-switch {
   display: inline-flex;
   flex: 0 0 auto;
-  padding: 3px;
+  padding: 2px;
   border: 1px solid var(--mv-border);
   border-radius: 8px;
   background: var(--mv-bg);
 }
 
 .view-switch button {
-  min-height: 32px;
-  padding: 0 13px;
+  min-height: 28px;
+  padding: 0 11px;
   border: 0;
   border-radius: 6px;
   background: transparent;
   color: var(--mv-fg-muted);
   cursor: pointer;
-  font-size: 14px;
+  font-size: 13px;
   font-weight: 600;
 }
 
@@ -164,7 +164,7 @@ a:focus-visible {
 .toolbar-actions {
   display: flex;
   margin-left: auto;
-  gap: 6px;
+  gap: 5px;
 }
 
 .icon-button,
@@ -172,11 +172,11 @@ a:focus-visible {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 36px;
-  height: 36px;
+  width: 32px;
+  height: 32px;
   padding: 0;
   border: 1px solid var(--mv-border);
-  border-radius: 7px;
+  border-radius: 6px;
   background: var(--mv-bg-subtle);
   color: var(--mv-fg-muted);
   cursor: pointer;
@@ -194,7 +194,7 @@ a:focus-visible {
   max-width: 1076px;
   min-width: 0;
   margin: 0 auto;
-  padding: 48px 32px 96px;
+  padding: 40px 32px 96px;
 }
 
 .markdown-body {
@@ -597,8 +597,8 @@ a:focus-visible {
   }
 
   .toolbar-inner {
-    min-height: 60px;
-    padding: 10px 14px;
+    min-height: 52px;
+    padding: 8px 12px;
     gap: 10px;
     flex-wrap: wrap;
   }

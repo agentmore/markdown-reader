@@ -96,7 +96,16 @@ describe('MarkdownViewer', () => {
   });
 
   it('copies the original Markdown and toggles the theme', async () => {
-    render(<MarkdownViewer source={source} url="file:///tmp/postiz.md" />);
+    const { container } = render(<MarkdownViewer source={source} url="file:///tmp/postiz.md" />);
+
+    const toolbarActions = Array.from(container.querySelectorAll('.toolbar-actions button'))
+      .map((button) => button.getAttribute('aria-label'));
+    expect(toolbarActions).toEqual([
+      'Copy Markdown',
+      'Download Markdown',
+      'Open Markdown file',
+      'Use dark theme',
+    ]);
 
     fireEvent.click(screen.getByRole('button', { name: 'Copy Markdown' }));
     await waitFor(() => expect(writeText).toHaveBeenCalledWith(source));
