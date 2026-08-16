@@ -126,6 +126,7 @@ describe('MarkdownViewer', () => {
     expect(toggle.getAttribute('aria-expanded')).toBe('true');
 
     const filter = screen.getByRole('searchbox', { name: 'Filter table of contents' });
+    expect(document.activeElement).not.toBe(filter);
     fireEvent.change(filter, { target: { value: 'missing' } });
     await waitFor(() => expect(screen.getByText('No matching headings.')).toBeTruthy());
     fireEvent.change(filter, { target: { value: 'read' } });

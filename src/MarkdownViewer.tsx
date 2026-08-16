@@ -362,7 +362,6 @@ export function MarkdownViewer({ source, url }: Props) {
               onChange={(event) => setTocQuery(event.target.value)}
               placeholder="Filter headings…"
               aria-label="Filter table of contents"
-              autoFocus
             />
           </label>
           {tocItems.length > 0 ? (
