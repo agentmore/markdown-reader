@@ -80,7 +80,7 @@ a:focus-visible {
   top: 0;
   inset-block-start: 0;
   width: 100%;
-  height: 44px;
+  height: 38px;
   border-bottom: 1px solid var(--mv-border);
   background: color-mix(in srgb, var(--mv-bg-subtle) 94%, transparent);
   box-shadow: var(--mv-shadow);
@@ -213,10 +213,10 @@ a:focus-visible {
 .toc-panel {
   position: fixed;
   z-index: 45;
-  top: 52px;
+  top: 46px;
   right: 12px;
   width: min(310px, calc(100vw - 24px));
-  max-height: calc(100vh - 64px);
+  max-height: calc(100vh - 58px);
   overflow: hidden;
   border: 1px solid var(--mv-border-muted);
   border-radius: 8px;
@@ -394,7 +394,7 @@ a:focus-visible {
   margin-top: 24px;
   margin-bottom: 16px;
   font-weight: 600;
-  scroll-margin-top: 60px;
+  scroll-margin-top: 54px;
 }
 
 .markdown-body h1,
