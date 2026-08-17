@@ -35,6 +35,8 @@ describe('MarkdownViewer', () => {
   const writeText = vi.fn().mockResolvedValue(undefined);
 
   beforeEach(() => {
+    window.history.replaceState(null, '', '/');
+    document.title = '';
     vi.stubGlobal('chrome', {
       runtime: {
         getURL: vi.fn((path: string) => `chrome-extension://test/${path}`),
@@ -154,6 +156,7 @@ describe('MarkdownViewer', () => {
     const headingLink = await screen.findByRole('button', { name: 'Read first' });
     fireEvent.click(headingLink);
     expect(scrollIntoView).toHaveBeenCalledOnce();
+    expect(document.title).toBe(window.location.href);
     expect(headingLink.getAttribute('aria-current')).toBeNull();
     expect(toggle.getAttribute('aria-expanded')).toBe('true');
 
@@ -173,6 +176,7 @@ describe('MarkdownViewer', () => {
     });
 
     await waitFor(() => expect(screen.getByText('replacement.md')).toBeTruthy());
+    expect(document.title).toBe(window.location.href);
     expect(screen.getByText('Uploaded')).toBeTruthy();
     expect(screen.getByText('replacement.md').parentElement?.getAttribute('title'))
       .toBe('Uploaded from this device · replacement.md');

@@ -18,7 +18,7 @@ export async function mountUploadedViewer(mount: HTMLElement, uploadId: string):
 
   const url = uploadedMarkdownUrl(uploadId);
   const location = `Uploaded from this device · ${uploadedDocument.filename}`;
-  window.document.title = `${uploadedDocument.filename} · AgentMore Markdown Reader`;
+  window.document.title = url;
   await recordMarkdownView(url, uploadedDocument.filename, {
     kind: 'uploaded',
     location,

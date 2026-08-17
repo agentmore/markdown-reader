@@ -266,7 +266,7 @@ export function MarkdownViewer({ source, url, initialFilename, uploaded = false,
       setDocumentLocation(nextLocation);
       setIsUploaded(true);
     });
-    document.title = `${file.name} · AgentMore Markdown Reader`;
+    document.title = window.location.href;
     event.target.value = '';
     void storeUploadedMarkdown(file.name, nextSource).then((uploadedDocument) => {
       const nextUrl = uploadedMarkdownUrl(uploadedDocument.id);
@@ -300,6 +300,7 @@ export function MarkdownViewer({ source, url, initialFilename, uploaded = false,
   function jumpToHeading(id: string) {
     document.getElementById(id)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
     window.history.replaceState(null, '', `#${id}`);
+    document.title = window.location.href;
   }
 
   return (

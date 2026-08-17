@@ -12,7 +12,7 @@ export async function mountMarkdownViewer(source: string, url: string): Promise<
   mount.id = 'markview-root';
 
   const filename = decodeURIComponent(window.location.pathname.split('/').pop() || 'Markdown');
-  document.title = `${filename} · AgentMore Markdown Reader`;
+  document.title = url;
   void recordMarkdownView(url, filename).catch(() => undefined);
   const style = document.createElement('style');
   style.dataset.markview = 'styles';
