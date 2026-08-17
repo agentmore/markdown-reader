@@ -61,6 +61,7 @@ describe('Markdown history popup', () => {
     mountHistoryPopup(document.getElementById('root')!);
 
     await waitFor(() => expect(screen.getByRole('button', { name: 'Open .md' })).toBeTruthy());
+    expect(screen.getByText('Users/rickb/Notes/read me.md', { exact: true })).toBeTruthy();
     expect(screen.getByText('/Users/rickb/Notes/read me.md', { exact: false })).toBeTruthy();
     expect(screen.getByText('Uploaded')).toBeTruthy();
 

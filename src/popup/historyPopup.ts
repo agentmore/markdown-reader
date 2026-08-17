@@ -9,6 +9,7 @@ import {
   storeUploadedMarkdown,
   uploadedMarkdownUrl,
 } from '../uploadedMarkdown';
+import { tabTitleFromUrl } from '../tabTitle';
 import './popup.css';
 
 function fullLocation(entry: MarkdownHistoryEntry): string {
@@ -19,6 +20,12 @@ function fullLocation(entry: MarkdownHistoryEntry): string {
   } catch {
     return entry.url;
   }
+}
+
+function displayedTitle(entry: MarkdownHistoryEntry): string {
+  return entry.kind === 'uploaded'
+    ? entry.filename
+    : tabTitleFromUrl(entry.url);
 }
 
 function relativeTime(timestamp: number): string {
@@ -141,7 +148,7 @@ function renderHistory(root: HTMLElement, history: MarkdownHistoryEntry[]): void
       const details = element('span', 'history-details');
       const nameLine = element('span', 'history-name-line');
       const filename = element('strong');
-      filename.textContent = entry.filename;
+      filename.textContent = displayedTitle(entry);
       nameLine.append(filename);
       if (entry.kind === 'uploaded') {
         const badge = element('span', 'uploaded-badge');
