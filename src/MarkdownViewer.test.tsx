@@ -156,7 +156,7 @@ describe('MarkdownViewer', () => {
     const headingLink = await screen.findByRole('button', { name: 'Read first' });
     fireEvent.click(headingLink);
     expect(scrollIntoView).toHaveBeenCalledOnce();
-    expect(document.title).toBe(window.location.href);
+    expect(document.title).toBe('tmp/postiz.md');
     expect(headingLink.getAttribute('aria-current')).toBeNull();
     expect(toggle.getAttribute('aria-expanded')).toBe('true');
 
@@ -176,7 +176,7 @@ describe('MarkdownViewer', () => {
     });
 
     await waitFor(() => expect(screen.getByText('replacement.md')).toBeTruthy());
-    expect(document.title).toBe(window.location.href);
+    expect(document.title).toBe('replacement.md');
     expect(screen.getByText('Uploaded')).toBeTruthy();
     expect(screen.getByText('replacement.md').parentElement?.getAttribute('title'))
       .toBe('Uploaded from this device · replacement.md');

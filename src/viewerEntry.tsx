@@ -4,6 +4,7 @@ import { createRoot } from 'react-dom/client';
 import { recordMarkdownView } from './history';
 import { MarkdownViewer } from './MarkdownViewer';
 import viewerStyles from './styles.css?inline';
+import { tabTitleFromUrl } from './tabTitle';
 import { getSavedViewMode } from './viewModePreference';
 
 export async function mountMarkdownViewer(source: string, url: string): Promise<void> {
@@ -12,7 +13,7 @@ export async function mountMarkdownViewer(source: string, url: string): Promise<
   mount.id = 'markview-root';
 
   const filename = decodeURIComponent(window.location.pathname.split('/').pop() || 'Markdown');
-  document.title = url;
+  document.title = tabTitleFromUrl(url);
   void recordMarkdownView(url, filename).catch(() => undefined);
   const style = document.createElement('style');
   style.dataset.markview = 'styles';

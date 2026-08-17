@@ -21,6 +21,7 @@ import { extractFrontmatter } from './frontmatter';
 import { FrontmatterTable } from './FrontmatterTable';
 import { recordMarkdownView } from './history';
 import { rehypeLightHighlight } from './rehypeLightHighlight';
+import { tabTitleFromUrl } from './tabTitle';
 import { storeUploadedMarkdown, uploadedMarkdownUrl } from './uploadedMarkdown';
 import { saveViewMode, type ViewMode } from './viewModePreference';
 
@@ -266,7 +267,7 @@ export function MarkdownViewer({ source, url, initialFilename, uploaded = false,
       setDocumentLocation(nextLocation);
       setIsUploaded(true);
     });
-    document.title = window.location.href;
+    document.title = file.name;
     event.target.value = '';
     void storeUploadedMarkdown(file.name, nextSource).then((uploadedDocument) => {
       const nextUrl = uploadedMarkdownUrl(uploadedDocument.id);
@@ -300,7 +301,7 @@ export function MarkdownViewer({ source, url, initialFilename, uploaded = false,
   function jumpToHeading(id: string) {
     document.getElementById(id)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
     window.history.replaceState(null, '', `#${id}`);
-    document.title = window.location.href;
+    document.title = isUploaded ? filename : tabTitleFromUrl(url);
   }
 
   return (
