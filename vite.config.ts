@@ -8,6 +8,7 @@ export default defineConfig({
   build: {
     target: 'chrome120',
     cssTarget: 'chrome120',
+    modulePreload: false,
     sourcemap: false,
     rolldownOptions: {
       output: {
