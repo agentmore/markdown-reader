@@ -84,7 +84,7 @@ function renderHistory(root: HTMLElement, history: MarkdownHistoryEntry[]): void
   openButton.textContent = 'Open .md';
   const fileInput = element('input');
   fileInput.type = 'file';
-  fileInput.accept = '.md,.markdown,text/markdown,text/plain';
+  fileInput.accept = '.md,.markdown,.txt,text/markdown,text/plain';
   fileInput.hidden = true;
   openButton.addEventListener('click', () => fileInput.click());
   fileInput.addEventListener('change', async () => {

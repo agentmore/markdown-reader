@@ -15,7 +15,7 @@ Read local and remote Markdown files in a fast, private, GitHub-style view with 
 
 ## Detailed description
 
-AgentMore Markdown Reader turns raw `.md` and `.markdown` files into a clean, GitHub-style reading view directly in your browser.
+AgentMore Markdown Reader turns raw `.md`, `.markdown`, and `.txt` files into a clean, GitHub-style reading view directly in your browser.
 
 Everything is rendered locally. Documents are never uploaded to AgentMore or sent to a third-party rendering service.
 
@@ -28,7 +28,7 @@ Features:
 - Open, copy, and download controls
 - Local history for up to 30 recently viewed Markdown files
 - Responsive light and dark themes
-- Automatic handling of local and remote `.md` and `.markdown` files
+- Automatic handling of local and remote `.md`, `.markdown`, and `.txt` files
 
 The extension has one purpose: make Markdown files easy to read. It does not include analytics, advertising, tracking, accounts, or remote code.
 
@@ -44,7 +44,7 @@ Stores the user's theme and Preview/Raw preferences plus up to 30 recent Markdow
 
 ### Host access
 
-The content script is limited to local files and HTTP/HTTPS paths ending in `.md` or `.markdown`. This match scope is required to detect and render the Markdown document the user opens. A content-type check prevents the extension from changing ordinary HTML pages whose path happens to end in `.md`. The extension does not request a separate host-permissions block or make cross-origin requests.
+The content script is limited to local files and HTTP/HTTPS paths ending in `.md`, `.markdown`, or `.txt`. This match scope is required to detect and render the document the user opens. A content-type check prevents the extension from changing ordinary HTML pages whose path happens to end in a supported extension. The extension does not request a separate host-permissions block or make cross-origin requests.
 
 ## Privacy-practices answers
 

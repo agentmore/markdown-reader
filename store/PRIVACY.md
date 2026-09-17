@@ -27,7 +27,7 @@ All extension data remains in Chrome's local extension storage on the user's dev
 ## Permissions
 
 - `storage` stores recent Markdown history, picker-opened Markdown sources, and the theme preference locally.
-- Access to local files and URLs ending in `.md` or `.markdown` lets the extension recognize and render Markdown documents. HTML pages and unrelated URLs are ignored.
+- Access to local files and URLs ending in `.md`, `.markdown`, or `.txt` lets the extension recognize and render supported documents. HTML pages and unrelated URLs are ignored.
 
 ## Chrome Web Store Limited Use
 

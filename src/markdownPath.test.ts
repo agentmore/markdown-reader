@@ -7,7 +7,9 @@ describe('isMarkdownPath', () => {
     '/nested/README.MD',
     '/guide.markdown',
     '/path%20with%20spaces/notes.md',
-  ])('accepts Markdown path %s', (pathname) => {
+    '/notes.txt',
+    '/nested/README.TXT',
+  ])('accepts supported document path %s', (pathname) => {
     expect(isMarkdownPath(pathname)).toBe(true);
   });
 
@@ -16,7 +18,7 @@ describe('isMarkdownPath', () => {
     '/markdown',
     '/skill.md.exe',
     '/assets/style.css',
-  ])('ignores non-Markdown path %s', (pathname) => {
+  ])('ignores unsupported document path %s', (pathname) => {
     expect(isMarkdownPath(pathname)).toBe(false);
   });
 });

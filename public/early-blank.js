@@ -1,5 +1,5 @@
 (() => {
-  const markdownPath = /\.(?:md|markdown)$/i.test(location.pathname);
+  const markdownPath = /\.(?:md|markdown|txt)$/i.test(location.pathname);
   const contentType = document.contentType.toLowerCase().split(';', 1)[0].trim();
   const rawMarkdown = [
     'text/markdown',

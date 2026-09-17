@@ -1,3 +1,3 @@
 export function isMarkdownPath(pathname: string): boolean {
-  return /\.(?:md|markdown)$/i.test(pathname);
+  return /\.(?:md|markdown|txt)$/i.test(pathname);
 }

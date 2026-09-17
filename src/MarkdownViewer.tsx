@@ -340,7 +340,7 @@ export function MarkdownViewer({ source, url, initialFilename, uploaded = false,
             <button className="icon-button" type="button" onClick={() => fileInput.current?.click()} title="Open Markdown file" aria-label="Open Markdown file">
               <FolderOpen size={18} aria-hidden="true" />
             </button>
-            <input ref={fileInput} type="file" accept=".md,.markdown,text/markdown,text/plain" onChange={openDocument} aria-label="Choose Markdown file" hidden />
+            <input ref={fileInput} type="file" accept=".md,.markdown,.txt,text/markdown,text/plain" onChange={openDocument} aria-label="Choose Markdown file" hidden />
             <button className="icon-button" type="button" onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')} title={`Use ${theme === 'dark' ? 'light' : 'dark'} theme`} aria-label={`Use ${theme === 'dark' ? 'light' : 'dark'} theme`}>
               {theme === 'dark' ? <Sun size={18} /> : <Moon size={18} />}
             </button>

@@ -8,7 +8,7 @@
 
 ![AgentMore Markdown Reader](store/assets/small-promo.png)
 
-Markdown Reader turns raw `.md` and `.markdown` files into a polished reading view in Chrome, Brave, and other Chromium browsers. Rendering stays entirely on-device: documents are never sent to AgentMore or a third-party rendering API.
+Markdown Reader turns raw `.md`, `.markdown`, and `.txt` files into a polished reading view in Chrome, Brave, and other Chromium browsers. Rendering stays entirely on-device: documents are never sent to AgentMore or a third-party rendering API.
 
 ## Highlights
 
@@ -38,7 +38,7 @@ Then:
 2. Enable **Developer mode**.
 3. Choose **Load unpacked** and select the generated `dist` directory.
 4. Open the extension's details and enable **Allow access to file URLs**.
-5. Open a local or remote `.md` or `.markdown` file.
+5. Open a local or remote `.md`, `.markdown`, or `.txt` file.
 
 Try it with [`https://agentmore.app/skill.md`](https://agentmore.app/skill.md).
 

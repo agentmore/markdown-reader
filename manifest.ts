@@ -30,6 +30,8 @@ export default defineManifest({
         'https://*/*.md',
         'http://*/*.markdown',
         'https://*/*.markdown',
+        'http://*/*.txt',
+        'https://*/*.txt',
       ],
       js: ['public/early-blank.js', 'src/content.tsx'],
       run_at: 'document_start',

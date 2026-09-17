@@ -21,7 +21,7 @@ If the account already owns a publisher, prefer renaming that publisher to Agent
 
 - Reload the unpacked extension from `dist`.
 - Enable access to file URLs.
-- Test local `.md` and `.markdown` files.
+- Test local `.md`, `.markdown`, and `.txt` files.
 - Test `https://agentmore.app/skill.md`.
 - Test Preview, Raw, copy, download, file open, theme, and history.
 - Confirm ordinary GitHub repository HTML pages remain untouched.
