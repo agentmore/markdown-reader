@@ -13,7 +13,7 @@ describe('tabTitleFromUrl', () => {
   });
 
   it('keeps the local filesystem path without the file URL prefix', () => {
-    expect(tabTitleFromUrl('file:///Users/rickb/Skills/SKILL.md'))
-      .toBe('Users/rickb/Skills/SKILL.md');
+    expect(tabTitleFromUrl('file:///Users/me/Skills/SKILL.md'))
+      .toBe('Users/me/Skills/SKILL.md');
   });
 });

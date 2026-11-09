@@ -15,7 +15,7 @@ describe('Markdown history popup', () => {
     storage = {
       [MARKDOWN_HISTORY_KEY]: [
         {
-          url: 'file:///Users/rickb/Notes/read%20me.md',
+          url: 'file:///Users/me/Notes/read%20me.md',
           filename: 'read me.md',
           viewedAt: Date.now(),
         },
@@ -61,12 +61,12 @@ describe('Markdown history popup', () => {
     mountHistoryPopup(document.getElementById('root')!);
 
     await waitFor(() => expect(screen.getByRole('button', { name: 'Open .md' })).toBeTruthy());
-    expect(screen.getByText('Users/rickb/Notes/read me.md', { exact: true })).toBeTruthy();
-    expect(screen.getByText('/Users/rickb/Notes/read me.md', { exact: false })).toBeTruthy();
+    expect(screen.getByText('Users/me/Notes/read me.md', { exact: true })).toBeTruthy();
+    expect(screen.getByText('/Users/me/Notes/read me.md', { exact: false })).toBeTruthy();
     expect(screen.getByText('Uploaded')).toBeTruthy();
 
     fireEvent.click(screen.getByRole('button', { name: 'Copy full path' }));
-    await waitFor(() => expect(writeText).toHaveBeenCalledWith('/Users/rickb/Notes/read me.md'));
+    await waitFor(() => expect(writeText).toHaveBeenCalledWith('/Users/me/Notes/read me.md'));
 
     fireEvent.click(screen.getByRole('button', { name: 'Copy Markdown' }));
     await waitFor(() => expect(writeText).toHaveBeenCalledWith('# Uploaded'));
